@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        .login-container { width: 300px; margin: 100px auto; padding: 20px; background-color: white; border-radius: 8px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; }
+        a { display: block; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="message"></p>
+        <a href="/register.html">Create New Account</a>
+    </div>
+    <script>
+        async function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+
+            const result = await response.json();
+
+            if (response.status === 200) {
+                window.location.href = "landing.html";
+            } else {
+                document.getElementById("message").innerText = result.message;
+            }
+        }
+    </script>
+</body>
+</html>
